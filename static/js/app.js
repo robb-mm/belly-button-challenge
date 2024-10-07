@@ -44,11 +44,6 @@ function buildCharts(sample_id) {
     for (let i=0; i<samples.length; i++)
 
       if (samples[i].id == sample_id) {
-        // Get the otu_ids, otu_labels, and sample_values
-        let sliced_values = samples[i].sample_values.slice(0, 10);
-        let sliced_otu_ids = samples[i].otu_ids.slice(0, 10);
-        let sliced_otu_labels = samples[i].otu_labels.slice(0, 10);
-      
         // Build a Bubble Chart
         let desired_maximum_marker_size = 5000;
         let size = samples[i].sample_values;
@@ -70,7 +65,7 @@ function buildCharts(sample_id) {
         let plot_data = [trace2];
 
         let layout = {
-          // title: 'Bacteria Cultures Per Sample',
+          title: 'Bacteria Cultures Per Sample',
           showlegend: false,
           height: 600,
           width: 1100,
@@ -81,6 +76,10 @@ function buildCharts(sample_id) {
         // Render the Bubble Chart
         Plotly.react('bubble', plot_data, layout);
 
+        // Get the otu_ids, otu_labels, and sample_values
+        let sliced_values = samples[i].sample_values.slice(0, 10);
+        let sliced_otu_ids = samples[i].otu_ids.slice(0, 10);
+        let sliced_otu_labels = samples[i].otu_labels.slice(0, 10);
 
         // Build a Bar Chart
         // Reverse the input data appropriately
@@ -115,7 +114,9 @@ function buildCharts(sample_id) {
         // Render the Bar Chart
         Plotly.react("bar", plot_data, layout);
         // Plotly.update("bar", plot_data, layout);
-        // Plotly.restyle("bar", );
+        // Plotly.restyle("bar", layout, plot_data );
+
+        break;
       }
   });
 }
@@ -213,9 +214,6 @@ function init() {
 
 // Function for event listener
 function optionChanged(newSample) {
-  // let id = id_droplist.property("value");
-  console.log(`id: ${newSample}`);
-
   // Build charts and metadata panel each time a new sample is selected
   buildMetadata(newSample);
   buildCharts(newSample);
